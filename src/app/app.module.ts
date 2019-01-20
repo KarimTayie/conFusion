@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule, MatListModule, MatGridListModule, MatCardModule,
          MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule,
-         MatCheckboxModule, MatSelectModule, MatSlideToggleModule } from '@angular/material';
+         MatCheckboxModule, MatSelectModule, MatSlideToggleModule, MatProgressSpinnerModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import 'hammerjs';
@@ -45,7 +45,7 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
     MatToolbarModule, MatListModule, MatGridListModule, MatCardModule,
     MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule,
-    MatCheckboxModule, MatSelectModule, MatSlideToggleModule,
+    MatCheckboxModule, MatSelectModule, MatSlideToggleModule, MatProgressSpinnerModule,
     FlexLayoutModule,
     AppRoutingModule
   ],
