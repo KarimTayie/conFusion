@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { baseURL } from '../shared/baseurl';
-import { Dish } from '../shared/dish';
 import { Comment } from '../shared/comment';
+import { Dish } from '../shared/dish';
 import { DISHES } from '../shared/dishes';
 
 import { ProcessHTTPMsgService } from './process-httpmsg.service';

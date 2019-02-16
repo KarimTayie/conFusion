@@ -30,14 +30,16 @@
           <a mat-raised-button href="mailto:confusion@food.net"><i class="fa fa-envelope-o"></i> Email</a>
         </div>
       </div>
-      <div fxFlex="40">
+      <div fxFlex="20">
         <h4>Map of our Location</h4>
       </div>
       <div fxFlex fxFlexOffset="20px" class="form-size">
         <h3>Send us your Feedback</h3>
-        <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
+        <!-- <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p> -->
+        <h3 *ngIf="submitted && !updated">Submitting Form</h3>
+        <h3 *ngIf="updated">Your Submission</h3>
 
-        <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+        <form novalidate [formGroup]="feedbackForm" #fform="ngForm" *ngIf="!submitted" (ngSubmit)="onSubmit()" [@expand]>
           <p>
             <mat-form-field class="half-width">
               <input matInput formControlName="firstname" placeholder="First Name" type="text" required>
@@ -59,10 +61,10 @@
             </mat-form-field>
           </p>
           <table class="form-size">
-            <td>
+            <td style="width: 80%">
               <mat-slide-toggle formControlName="agree">May we contact you?</mat-slide-toggle>
             </td>
-            <td>
+            <td style="width: 20%">
               <mat-select placeholder="How?" formControlName="contacttype">
                 <mat-option *ngFor="let ctype of contactType" [value]="ctype">
                   {{ ctype }}
@@ -77,6 +79,35 @@
           </p>
           <button type="submit" mat-button class="background-primary text-floral-white">Submit</button>
         </form>
+
+        <mat-list *ngIf="updated" [@expand]>
+          <mat-list-item>
+            <p matLine>
+              <span>First Name: {{ feedback.firstname }}</span>
+            </p>
+            <p matLine>
+              <span>Last Name: {{ feedback.lastname }}</span>
+            </p>
+            <p matLine>
+              <span>Tel. Number: {{ feedback.telnum }}</span>
+            </p>
+            <p matLine>
+              <span>Email: {{ feedback.email }}</span>
+            </p>
+            <p matLine>
+              <span>Contact You?: {{ feedback.agree }}</span>
+            </p>
+            <p matLine>
+              <span>How?: {{ feedback.contacttype }}</span>
+            </p>
+            <p matLine>
+              <span>Feedback: {{ feedback.message }}</span>
+            </p>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div *ngIf="submitted && !updated">
+        <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
       </div>
     </div>
   </div>

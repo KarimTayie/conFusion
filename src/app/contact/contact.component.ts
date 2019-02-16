@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Feedback, ContactType } from '../shared/feedback';
 
-import { flyInOut } from '../animations/app.animation';
+import { Feedback, ContactType } from '../shared/feedback';
+import { flyInOut, expand } from '../animations/app.animation';
+import { FeedBackService } from '../services/feedback.service';
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
@@ -13,7 +14,8 @@ import { flyInOut } from '../animations/app.animation';
     'style': 'display: block;'
   },
   animations: [
-    flyInOut()
+    flyInOut(),
+    expand()
   ]
 })
 export class ContactComponent implements OnInit {
@@ -21,7 +23,12 @@ export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  feedbackCopy: Feedback;
   contactType = ContactType;
+  errMess: any;
+
+  submitted = false;
+  updated = false;
 
   formErrors = {
     'firstname': '',
@@ -51,7 +58,7 @@ export class ContactComponent implements OnInit {
     }
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private feedBackService: FeedBackService) {
     this.createForm();
   }
 
@@ -110,8 +117,27 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
+    this.submitted = true;
+    this.feedbackCopy = this.feedbackForm.value;
+    // console.log(this.feedback);
+    this.feedBackService.submitFeedback(this.feedbackCopy)
+      .subscribe(
+        feedBack => {
+          this.feedback = feedBack;
+          this.feedbackCopy = feedBack;
+          this.updated = true;
+          setTimeout(() => {
+            this.submitted = false;
+            this.updated = false;
+          }, 5000);
+        },
+        errmess => {
+          this.feedback = null;
+          this.feedbackCopy = null;
+          this.errMess = errmess;
+        }
+      );
+
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
